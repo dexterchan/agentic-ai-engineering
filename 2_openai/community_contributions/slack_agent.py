@@ -35,11 +35,12 @@ def send_message(subject: str, markdown_body: str) -> Dict[str, str]:
     """ Send an email with the given subject and markdown body """
     try:
         # Attempt to send the message
+        #print(f"Sending slack message: {subject} {markdown_body}")
         response = slack_client.chat_postMessage(channel=slack_channel_id, blocks=_fmt_blocks(subject, markdown_body))
         return {"status": str(response.status_code)}
     except SlackApiError as e:
         # Handle any errors that occur
-        print(f"Error sending slack message: {e.response['error']}")
+        print(f"Error sending slack message: {e.response['error']} {e.response['error']['message']}")
         return {"status": "error", "message": str(e.response['error'])}
 
 @function_tool

@@ -183,3 +183,7 @@ cython_debug/
 6_mcp/memory/*.db
 me/summary.txt
 *.pdf
+
+memory.db
+memory.db*
+uv.lock

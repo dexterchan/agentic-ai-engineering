@@ -11,7 +11,8 @@ async def process_message(sidekick, message, success_criteria, history):
     results = await sidekick.run_superstep(message, success_criteria, history)
     return results, sidekick
     
-async def reset():
+async def reset(sidekick):
+    free_resources(sidekick)
     new_sidekick = Sidekick()
     await new_sidekick.setup()
     return "", "", None, new_sidekick
@@ -20,13 +21,16 @@ def free_resources(sidekick):
     print("Cleaning up")
     try:
         if sidekick:
-            sidekick.free_resources()
+            #sidekick.free_resources()
+            print("Cleaning up sidekick resources")
+            sidekick.cleanup()
     except Exception as e:
         print(f"Exception during cleanup: {e}")
 
 
 with gr.Blocks(title="Sidekick", theme=gr.themes.Default(primary_hue="emerald")) as ui:
     gr.Markdown("## Sidekick Personal Co-Worker")
+    #state holding unique instance of sidekick
     sidekick = gr.State(delete_callback=free_resources)
     
     with gr.Row():
@@ -39,12 +43,13 @@ with gr.Blocks(title="Sidekick", theme=gr.themes.Default(primary_hue="emerald"))
     with gr.Row():
         reset_button = gr.Button("Reset", variant="stop")
         go_button = gr.Button("Go!", variant="primary")
-        
+    
+    #setup a new instance of sidekick for each session
     ui.load(setup, [], [sidekick])
     message.submit(process_message, [sidekick, message, success_criteria, chatbot], [chatbot, sidekick])
     success_criteria.submit(process_message, [sidekick, message, success_criteria, chatbot], [chatbot, sidekick])
     go_button.click(process_message, [sidekick, message, success_criteria, chatbot], [chatbot, sidekick])
-    reset_button.click(reset, [], [message, success_criteria, chatbot, sidekick])
+    reset_button.click(reset, [sidekick], [message, success_criteria, chatbot, sidekick])
 
     
 ui.launch(inbrowser=True)

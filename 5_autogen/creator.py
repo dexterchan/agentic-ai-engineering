@@ -28,6 +28,10 @@ class Creator(RoutedAgent):
     and it must inherit from RoutedAgent and have an __init__ method that takes a name parameter.
     Also avoid environmental interests - try to mix up the business verticals so that every agent is different.
     Respond only with the python code, no other text, and no markdown code blocks.
+
+    *Constraints*:
+    - The agent only interface 'gpt-4o-mini' only.
+    - the agent should NOT come up with any outlaw ideas.
     """
 
 
@@ -58,5 +62,6 @@ class Creator(RoutedAgent):
         module = importlib.import_module(agent_name)
         await module.Agent.register(self.runtime, agent_name, lambda: module.Agent(agent_name))
         logger.info(f"** Agent {agent_name} is live")
+        #Risk of deadlock here
         result = await self.send_message(messages.Message(content="Give me an idea"), AgentId(agent_name, "default"))
         return messages.Message(content=result.content)

@@ -43,7 +43,7 @@ And you have tools to buy and sell stocks using your account name {name}.
 You can use your entity tools as a persistent memory to store and recall information; you share
 this memory with other traders and can benefit from the group's knowledge.
 Use these tools to carry out research, make decisions, and execute trades.
-After you've completed trading, send a push notification with a brief summary of activity, then reply with a 2-3 sentence appraisal.
+After you've completed trading, send a slack push notification with a brief summary of activity, then reply with a 2-3 sentence appraisal.
 Your goal is to maximize your profits according to your strategy.
 """
 
@@ -63,7 +63,7 @@ Here is your current account:
 Here is the current datetime:
 {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Now, carry out analysis, make your decision and execute trades. Your account name is {name}.
-After you've executed your trades, send a push notification with a brief sumnmary of trades and the health of the portfolio, then
+After you've executed your trades, send a slack push notification with a brief sumnmary of trades and the health of the portfolio, then
 respond with a brief 2-3 sentence appraisal of your portfolio and its outlook.
 """
 
@@ -82,5 +82,5 @@ Here is your current account:
 Here is the current datetime:
 {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Now, carry out analysis, make your decision and execute trades. Your account name is {name}.
-After you've executed your trades, send a push notification with a brief sumnmary of trades and the health of the portfolio, then
+After you've executed your trades, send a slack push notification with a brief sumnmary of trades and the health of the portfolio, then
 respond with a brief 2-3 sentence appraisal of your portfolio and its outlook."""

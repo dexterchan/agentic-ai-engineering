@@ -1,5 +1,5 @@
 import os
-import asyncio
+import anyio
 from fastmcp import FastMCP
 from fastmcp.server.auth.providers.bearer import BearerAuthProvider
 import uvicorn
@@ -39,7 +39,10 @@ async def add(a: int, b: int) -> int:
     This tool is protected and requires a valid JWT Bearer token.
     """
     print(f"Received request to add {a} and {b}")
-    return a + b
+    def cpu_intensive_task(s1, s2) -> str:
+        # Some heavy computation that could block the event loop
+        return s1 + s2
+    return await anyio.to_thread.run_sync(cpu_intensive_task, a, b)
 
 mcp.run(
         transport="http",

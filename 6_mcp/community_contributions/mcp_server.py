@@ -11,6 +11,8 @@ load_dotenv()
 # This is your secret key for signing and verifying JWTs.
 # In a real application, use a strong, securely stored secret.
 # JWT configuration
+# Create a new key with
+# echo JWT_SECRET_KEY=$(openssl rand -base64 32) > .env
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 if not JWT_SECRET_KEY:
     raise ValueError("JWT_SECRET_KEY environment variable not set")
